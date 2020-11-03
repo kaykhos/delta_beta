@@ -1,4 +1,4 @@
-function H = GenHWithUnits(nb_sinks)
+function H = GenHWithUnits(nb_sinks, sink_coupling_rate)
 % written from Hao's file, I've added the unit's of mm
 
 
@@ -7,7 +7,7 @@ wgnum=7+nb_sinks;  %7 sites plus sink waveguides
 H= zeros(wgnum,wgnum);
 L= zeros(wgnum,wgnum);
 
-Beta=0;
+Beta=11660;
 dbmax=1;  % vary dbmax from 0 to 1
 
 for i =1:1:wgnum
@@ -25,7 +25,7 @@ C56=783*a;
 C57=100*a;
 C67=383*a;
 
-Css=1; %coupling coefficient between sink waveguides
+Css=sink_coupling_rate; %coupling coefficient between sink waveguides
 
 
 % Hamiltonian
