@@ -26,7 +26,7 @@ for calc=1:nCarlo
                 if H_t(gep, geq)>0.15 %&& (gep==(geq-1))
 %                     [gep,geq]
                     H_t(gep,geq)=sqrt(H_t(gep,geq)^2+(R(ii,gep)-R(ii,geq))^2/4);
-                    H(geq,gep)=H_t(gep,geq);
+                    H_t(geq,gep)=H_t(gep,geq);
                 end
             end
         end
