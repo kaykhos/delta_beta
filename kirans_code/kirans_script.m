@@ -7,12 +7,15 @@
 
 
 %% plotting the eigenstates of the 27 site 
-for ii = 1:100
-
-    H = GenHWithUnits(20);
+% for ii = 1:100
+    
+    H = GenHWithUnits(20, 1.3);
+%     GeneralHamiltonian
     % GeneralHamiltonian
-    H = UpdateH(H, 5, ii);
-    [vecs, vals] = eigs(H + 3*eye(size(H)), 27);
+    H = UpdateH(H, 3, 10);
+    H = GeneralHamiltonian(0, 2, 0.5, 0, 100);
+    dims = length(H(:,1));
+    [vecs, vals] = eigs(H + 10*eye(size(H)), dims);
     vals = diag(vals);
 
     figure(99);clf;shg
@@ -43,8 +46,32 @@ for ii = 1:100
     plot([6, 6], [-0.8, 0.8], 'r')
     legendCell = cellstr(num2str(vals(22:end)));
     legend(legendCell)
-    tmp = input('good?')
+    
+%     tmp = input('good?')
+% end
+
+
+
+figure(98);clf;shg
+subplot(2, 1, 1);hold on 
+psi0 = zeros(dims, 1);
+psi0(6) = 1;
+probs = transpose(vecs)*psi0; % as cols are eigen vecs
+probs = probs.^2;
+for vv = 1:dims
+    vec = vecs(:,vv); % as cols are eigen vecs
+    plt = plot(vec, 'r-','LineWidth',2);
+    plt.Color(4) = (probs(vv));
 end
+xlabel('site')
+ylabel('amplitude of eigen state at site')
+title('Anderson localised')
+
+subplot(2, 1, 2)
+plot(vals, probs, 'd')
+xlabel('Eigenenergy')
+ylabel('Projection^2 onto initial state')
+title('eigenstate decomposition')
 
 %% Plotting hopping dynamics as a function of DeltaBeta
 

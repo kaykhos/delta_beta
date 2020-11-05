@@ -1,16 +1,15 @@
-%% Transport simulation with true Hamiltonian
+function out = GeneralHamiltonian(E0, DeltaE, C0, DeltaC, dims)
 
-onsite_offset_and_randomness = [1, 0.5];
-couplings_offset_and_randomness = [0, 0.1];
-dims = 27;
+rng('shuffle');
 
-energies = onsite_offset_and_randomness(1) + ...
-    rand(1, dims)*onsite_offset_and_randomness(2);
+energies = E0 + (rand(1, dims)-0.5)*DeltaE;
 
-couplings = couplings_offset_and_randomness(1) + ...
-    rand(1, dims-1)*couplings_offset_and_randomness(2);
+couplings = C0 + (rand(1, dims-1)-0.5)*DeltaC;
 
 H0 = diag(energies);
 H0 = H0 + diag(couplings, 1) + diag(couplings, -1);
 
-H = H0;
+out = H0;
+
+
+end

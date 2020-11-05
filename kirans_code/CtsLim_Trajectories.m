@@ -1,11 +1,10 @@
 %% Looking at how delta beta scales when you increase the number of segments
-Generated8SiteHL_sqrtC_decoherence_and_dephasing;
-% H = H(1:10, 1:10);
-H = UpdateH(H, 1, 0);
-nCarlo = 100;
-beta0 = 2;
+   
+H = GenHWithUnits(20, 1.0);
+H = UpdateH(H, 5, 10);nCarlo = 100;
+beta0 = 0;
 beta = beta0;
-segmentsVec = 2.^([4:8]);
+segmentsVec = 2.^([4]);
 
 figure(30);clf;shg
 
@@ -24,24 +23,29 @@ for ii = 1:length(segmentsVec)
     
     
     Rho = SolveWG_Sim(H/scale, beta0/betaScale,...
-        nCarlo, nb_segments);
+        nCarlo, nb_segments, true, 0);
 %     beta = beta0/(nb_segments/16);
 %     (nb_segments/16)
-    subplot(2, 4, ii)
+    subplot(1, 1, ii)
     pcolor(Rho)
     if ii == 1
-        title(['sqrt(2) scaling (beta0:', num2str(beta0)])
+%         title(['sqrt(2) scaling (beta0:', num2str(beta0)])    
+        title('Time evolution (non-anderson)')
     else
         title('sqrt(2) scaling')
     end
     
     shading interp
-    xlabel('segs')
+    xlabel('segs (time)')
     ylabel('site')
+    caxis([0, 0.62])
+    colorbar()
     
     final_state = [final_state, Rho(:,end-3:end)];
 end
 
+
+%% Plot convergence from above
 figure(31);clf;shg
 pcolor(final_state)
 title('convergence?')
